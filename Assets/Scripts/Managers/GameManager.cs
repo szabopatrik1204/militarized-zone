@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 
     public static event Action<GameState> OnGameStateChanged;
 
+    public static int spawnedSoldiers = 20;    
+
     private void Awake()
     {
         Instance = this;
@@ -38,7 +40,7 @@ public class GameManager : MonoBehaviour
                 GridManager.Instance.GenerateGrid();
                 break;
             case GameState.SoldierSpawning:
-                Debug.Log("Soldiers Spawning");
+                Spawner.Instance.SpawnSoldier();
                 break;
             case GameState.FlagCarrierSpawning:
                 break;

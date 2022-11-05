@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
@@ -43,6 +44,14 @@ public class GridManager : MonoBehaviour
 
         GameManager.Instance.UpdateGameState(GameManager.GameState.SoldierSpawning);
 
+    }
+
+    public Vector2 SpawnPosition()
+    {
+        float spawnPositionX = Random.Range(0, _width);
+        float spawnPositionY = Random.Range(0, _height);
+        //return (Tile) _tiles.Where(t => t.Key == new Vector2(spawnPositionX, spawnPositionY));
+        return new Vector2(spawnPositionX, spawnPositionY);
     }
 
     public Tile GetTileAtPosition(Vector2 pos)
