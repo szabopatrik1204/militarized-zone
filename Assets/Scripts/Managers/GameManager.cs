@@ -11,7 +11,9 @@ public class GameManager : MonoBehaviour
 
     public static event Action<GameState> OnGameStateChanged;
 
-    public static int spawnedSoldiers = 20;    
+    public static int numberOfSpawnedSoldiers = 13;
+
+    public Bomb bombPrefab;
 
     private void Awake()
     {
@@ -39,10 +41,15 @@ public class GameManager : MonoBehaviour
             case GameState.MapGenerate:
                 GridManager.Instance.GenerateGrid();
                 break;
-            case GameState.SoldierSpawning:
-                Spawner.Instance.SpawnSoldier();
+            case GameState.BombOptionGenerate:
+                BombManager.Instance.GenerateOptions();
                 break;
-            case GameState.FlagCarrierSpawning:
+            case GameState.SoldierSpawning:
+                Spawner.Instance.SoldierSpawner();
+                break;
+            case GameState.FlagCarrierSpawningAllies:
+                break;
+            case GameState.FlagCarrierSpawningAxis:
                 break;
             case GameState.Player1Turn:
                 break;
@@ -58,10 +65,12 @@ public class GameManager : MonoBehaviour
     public enum GameState
     {
         MapGenerate = 0,
-        SoldierSpawning = 1,
-        FlagCarrierSpawning = 2,
-        Player1Turn = 3,
-        Player2Turn = 4,
+        BombOptionGenerate = 1,
+        SoldierSpawning = 2,
+        FlagCarrierSpawningAllies = 3,
+        FlagCarrierSpawningAxis = 4,
+        Player1Turn = 5,
+        Player2Turn = 6,
     }
 
 }

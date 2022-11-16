@@ -9,17 +9,27 @@ public class Soldier : MonoBehaviour
 
     public Vector2 position;
 
-    public Side playerSide;
+    public Side playerSide = Side.None;
 
-    [SerializeField] private SpriteRenderer _renderer;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     [SerializeField] private Sprite Allies;
+
     [SerializeField] private Sprite Axis;
+
+    [SerializeField] private Sprite FlagBlue;
+
+    [SerializeField] private Sprite FlagRed;
+
+    public GameObject HpBar;
 
     public enum Side 
     { 
         Allies,
         Axis,
+        FlagCarrierAllies,
+        FlagCarrierAxis,
+        None,
     }
 
     public void Init(int health, Vector2 position, Side playerSide)
@@ -30,11 +40,23 @@ public class Soldier : MonoBehaviour
 
         if (playerSide == Side.Allies)
         {
-            _renderer.sprite = Allies;
+            spriteRenderer.sprite = Allies;
         }
-        else
+        else if (playerSide == Side.Axis)
         {
-            _renderer.sprite = Axis;
+            spriteRenderer.sprite = Axis;
+        }
+        else if (playerSide == Side.FlagCarrierAllies)
+        {
+            spriteRenderer.sprite = FlagBlue;
+        }
+        else if (playerSide == Side.FlagCarrierAxis)
+        {
+            spriteRenderer.sprite = FlagRed;
         }
     }
+
+    
+
+
 }
