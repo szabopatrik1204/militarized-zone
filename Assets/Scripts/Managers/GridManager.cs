@@ -14,11 +14,18 @@ public class GridManager : MonoBehaviour
 
     [SerializeField] private Soldier soldierPrefab;
 
+    [SerializeField] private Bomb bombPrefab;
+
+    [SerializeField] private GameObject highlightPrefab;
+
     [SerializeField] private Camera cam;
 
     public Dictionary<Vector2, Tile> tiles;
 
     public Dictionary<Vector2, Soldier> soldiers;
+
+    public Dictionary<Vector2, GameObject> highlights;
+
 
     private void Awake()
     {
@@ -34,10 +41,26 @@ public class GridManager : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
                 if (hit.transform != null)
                 {
-                    Debug.Log("Hit " + hit.transform.gameObject.name);
-                    Spawner.Instance.FlagCarrierSpawner(hit.transform.gameObject.name);
-                }
+                    /*if (GameManager.Instance.State == GameManager.GameState.ShootBomb)
+                    {
+                        BombManager.Instance.ShootBomb(BombManager.Instance.choosenOption,hit);
+                    }*/
 
+                    if (GameManager.Instance.State == GameManager.GameState.ShootBomb)
+                    {
+                        if (BombManager.Instance.chosenOption != null)
+                        {
+                            BombManager.Instance.ShootBomb(BombManager.Instance.chosenOption, hit);
+                        }
+                    }
+
+                    if (GameManager.Instance.State == GameManager.GameState.FlagCarrierSpawningAllies
+                        || GameManager.Instance.State == GameManager.GameState.FlagCarrierSpawningAxis)
+                    {
+                        Debug.Log("Hit " + hit.transform.gameObject.name);
+                        Spawner.Instance.FlagCarrierSpawner(hit.transform.gameObject.name);
+                    }
+                }
         }
     }
 
@@ -46,6 +69,8 @@ public class GridManager : MonoBehaviour
         tiles = new Dictionary<Vector2, Tile>();
 
         soldiers = new Dictionary<Vector2, Soldier>();
+
+        highlights = new Dictionary<Vector2, GameObject>();
 
         for (int x = 0; x < width; x++)
         {
@@ -58,10 +83,14 @@ public class GridManager : MonoBehaviour
                 spawnedSoldier.Init(200, new Vector2(x, y), Soldier.Side.None);
                 spawnedSoldier.name = $"Soldier {x} {y}";
 
+                var highlight = Instantiate(highlightPrefab, new Vector3(x, y), Quaternion.identity);
+                highlight.name = $"Highlight {x} {y}";
 
                 var isOffset = (x + y) % 2 == 1;
 
                 spawnedTile.Init(isOffset);
+
+                highlights[new Vector2(x, y)] = highlight;
 
                 soldiers[new Vector2(x, y)] = spawnedSoldier;
 
@@ -97,6 +126,36 @@ public class GridManager : MonoBehaviour
     public Soldier GetSoldierAtCoordinate(Vector2 a)
     {
         return null;
+    }
+
+    public void ClearHighlights()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                GameObject highlighted = GameObject.Find($"Highlight {x} {y}");
+                var highlightColor = Color.red;
+                highlightColor.a = 0f;
+                highlighted.GetComponent<SpriteRenderer>().color = highlightColor;
+            }
+        }
+    }
+
+    public static void ClearZones()
+    {
+        for (int x = 0; x < GridManager.Instance.width; x++)
+        {
+            for (int y = 0; y < GridManager.Instance.height; y++)
+            {
+                GameObject zoneObject = GameObject.Find($"Soldier {x} {y}");
+                Soldier zone = zoneObject.GetComponent<Soldier>();
+                if ((zone.playerSide == Soldier.Side.HealedZone) || (zone.playerSide == Soldier.Side.BombedZone))
+                {
+                    zone.ChangeSide(Soldier.Side.None);
+                }
+            }
+        }
     }
 
 }

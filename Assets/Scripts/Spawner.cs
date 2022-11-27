@@ -12,6 +12,10 @@ public class Spawner : MonoBehaviour
 
     public List<Soldier> blueSoldiers;
 
+    public Soldier AxisFlag;
+
+    public Soldier AlliesFlag;
+
     private void Awake()
     {
         Instance = this;
@@ -56,6 +60,7 @@ public class Spawner : MonoBehaviour
             var chosen = GameObject.Find($"Soldier {pos[index].x} {pos[index].y}");
             chosen.GetComponent<Soldier>().Init(300, pos[index], side);
             chosen.GetComponent<Soldier>().HpBar.SetActive(true);
+            Tile.ColorTile(chosen.GetComponent<Soldier>());
         }
         else
         {
@@ -103,17 +108,25 @@ public class Spawner : MonoBehaviour
             {
                 if (clickedSoldier.position.x == GridManager.Instance.width - 1)
                 {
+                    Highlight.Instance.ClearHighlight();
                     clickedSoldier.Init(200, clickedSoldier.position, Soldier.Side.FlagCarrierAllies);
+                    AlliesFlag = clickedSoldier;
+                    Tile.ColorTile(clickedSoldier);
                     GameManager.Instance.UpdateGameState(GameManager.GameState.FlagCarrierSpawningAxis);
+                    GameManager.Instance.Console.text += $"Kek zaszlo elhelyezve!\n";
                 }
             }
             else if (GameManager.Instance.State == GameManager.GameState.FlagCarrierSpawningAxis)
             {
                 if (clickedSoldier.position.x == 0)
                 {
+                    Highlight.Instance.ClearHighlight();
                     clickedSoldier.Init(200, clickedSoldier.position, Soldier.Side.FlagCarrierAxis);
-                    GameManager.Instance.UpdateGameState(GameManager.GameState.Player1Turn);
-                    
+                    AxisFlag = clickedSoldier;
+                    Tile.ColorTile(clickedSoldier);
+                    GameManager.Instance.UpdateGameState(GameManager.GameState.ShootBomb);
+                    GameManager.Instance.Console.text += $"Piros zaszlo elhelyezve!\n";
+                    AnimationManager.Instance.IdleSide(Soldier.Side.Allies);
                 }
             }
 

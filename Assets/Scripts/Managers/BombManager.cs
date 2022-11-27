@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,9 +17,20 @@ public class BombManager : MonoBehaviour
     public Bomb option2;
     public Bomb option3;
 
+    public Bomb previousOption;
+
+    public Bomb chosenOption;
+
+    public Color damageColor;
+
+    public Color healColor;
+
+    public Color zeroColor;
+
     private void Awake()
     {
         Instance = this;
+        chosenOption = null;
     }
 
     /*
@@ -32,6 +45,66 @@ public class BombManager : MonoBehaviour
         BombManager.Instance.DrawPattern(bomb,1);
     */
 
+    public void DestroyOption(string name)
+    {
+        Destroy(GameObject.Find(name));
+    }
+
+    public void ReplaceOption()
+    {
+        if (chosenOption == option1)
+        {
+            var values = Bomb.Pattern.GetValues(typeof(Bomb.Pattern));
+            Bomb.Pattern randomBar = (Bomb.Pattern)values.GetValue(Random.Range(0, values.Length));
+
+            DestroyOption("Option 1 Bomb");
+
+            option1 = Instantiate(bombPrefab, new Vector3(0, 0), Quaternion.identity);
+            option1.Init(randomBar, 100, 3);
+            if (option1.pattern != Bomb.Pattern.randomPattern)
+            {
+                option1.isHealing();
+            }
+            option1.name = $"Option 1 Bomb";
+            ClearPattern(option1, 1);
+            DrawPattern(option1, 1);
+        } 
+        else if (chosenOption == option2)
+        {
+            var values = Bomb.Pattern.GetValues(typeof(Bomb.Pattern));
+            Bomb.Pattern randomBar = (Bomb.Pattern)values.GetValue(Random.Range(0, values.Length));
+
+            DestroyOption("Option 2 Bomb");
+
+            option2 = Instantiate(bombPrefab, new Vector3(0, 0), Quaternion.identity);
+            option2.Init(randomBar, 100, 3);
+            option2.name = $"Option 2 Bomb";
+            if (option2.pattern != Bomb.Pattern.randomPattern)
+            {
+                option2.isHealing();
+            }
+            ClearPattern(option2, 2);
+            DrawPattern(option2, 2);
+        } 
+        else if (chosenOption == option3)
+        {
+            var values = Bomb.Pattern.GetValues(typeof(Bomb.Pattern));
+            Bomb.Pattern randomBar = (Bomb.Pattern)values.GetValue(Random.Range(0, values.Length));
+
+            DestroyOption("Option 3 Bomb");
+
+            option3 = Instantiate(bombPrefab, new Vector3(0, 0), Quaternion.identity);
+            option3.Init(randomBar, 100, 3);
+            option3.name = $"Option 3 Bomb";
+            if (option2.pattern != Bomb.Pattern.randomPattern)
+            {
+                option3.isHealing();
+            }
+            ClearPattern(option3, 3);
+            DrawPattern(option3, 3);
+        }
+    }
+
     public void GenerateOptions()
     {
 
@@ -40,8 +113,9 @@ public class BombManager : MonoBehaviour
         //string randomBar = (string)values.GetValue(Random.Range(0,values.Length));
         Bomb.Pattern randomBar = (Bomb.Pattern)values.GetValue(Random.Range(0, values.Length));
 
-        var option1 = Instantiate(bombPrefab, new Vector3(0, 0), Quaternion.identity);
+        option1 = Instantiate(bombPrefab, new Vector3(0, 0), Quaternion.identity);
         option1.Init(randomBar, 100, 3);
+        option1.name = $"Option 1 Bomb";
         DrawPattern(option1, 1);
 
         //randomBar = (string)values.GetValue(Random.Range(0, values.Length));
@@ -50,31 +124,56 @@ public class BombManager : MonoBehaviour
 
         option2 = Instantiate(bombPrefab, new Vector3(0, 0), Quaternion.identity);
         option2.Init(randomBar, 100, 3);
+        option2.name = $"Option 2 Bomb";
         DrawPattern(option2, 2);
 
         randomBar = (Bomb.Pattern)values.GetValue(Random.Range(0, values.Length));
 
         option3 = Instantiate(bombPrefab, new Vector3(0, 0), Quaternion.identity);
         option3.Init(randomBar, 100, 3);
+        option3.name = $"Option 3 Bomb";
         DrawPattern(option3, 3);
 
         GameManager.Instance.UpdateGameState(GameManager.GameState.FlagCarrierSpawningAllies);
 
     }
+
     public void DrawPattern(Bomb bomb,int option) // Option 1,2,3 
     {
 
         for (int i = 0; i < bomb.size; i++)
         {
             for (int j = 0; j < bomb.size; j++)
-            {
-                if (bomb.bombPattern[i,j] == 1)
+            {          
+                if (bomb.pattern == Bomb.Pattern.randomPattern)
+                {
+                    int cellDamage = bomb.bombPattern[i, j];
+                    var chosen = GameObject.Find($"Block{option} {i} {j}");
+                    chosen.GetComponent<Image>().color = zeroColor;
+                    chosen.GetComponent<Image>().transform.GetChild(0).GetComponent<TMP_Text>().text = "?";
+                }
+                else if (bomb.bombPattern[i, j] > 0)
+                {
+                    int cellDamage = bomb.bombPattern[i, j];
+                    var chosen = GameObject.Find($"Block{option} {i} {j}");
+                    chosen.GetComponent<Image>().color = damageColor;
+                    chosen.GetComponent<Image>().transform.GetChild(0).GetComponent<TMP_Text>().text = ((cellDamage / 10)).ToString();
+
+                }
+                else if (bomb.bombPattern[i, j] < 0)
+                {
+                    int cellDamage = bomb.bombPattern[i, j];
+                    var chosen = GameObject.Find($"Block{option} {i} {j}");
+                    chosen.GetComponent<Image>().color = healColor;
+                    chosen.GetComponent<Image>().transform.GetChild(0).GetComponent<TMP_Text>().text = Mathf.Abs(cellDamage / 10).ToString();
+
+                }
+                else if (bomb.bombPattern[i, j] == 0)
                 {
                     var chosen = GameObject.Find($"Block{option} {i} {j}");
-                    chosen.GetComponent<Image>().color = Color.red;
-                    Debug.Log("Itt vok");
+                    chosen.GetComponent<Image>().color = zeroColor;
                 }
-                
+
             }
         }
         /*
@@ -93,9 +192,92 @@ public class BombManager : MonoBehaviour
 
     }
 
-    
-    public void ShootBomb(Bomb bomb)
+    public void ClearPattern(Bomb bomb, int option) // Option 1,2,3 
     {
+
+        for (int i = 0; i < bomb.size; i++)
+        {
+            for (int j = 0; j < bomb.size; j++)
+            {
+                    var chosen = GameObject.Find($"Block{option} {i} {j}");
+                    chosen.GetComponent<Image>().color = zeroColor;
+                    chosen.GetComponent<Image>().transform.GetChild(0).GetComponent<TMP_Text>().text = "0";
+            }
+        }
+    }
+
+    public void ChooseBomb(Button button)
+    {
+        if (GameManager.Instance.State == GameManager.GameState.ShootBomb)
+        {
+            GridManager.Instance.ClearHighlights();
+            switch (button.name)
+            {
+                case "Option1":
+                    chosenOption = option1;
+                    break;
+                case "Option2":
+                    chosenOption = option2;
+                    break;
+                case "Option3":
+                    chosenOption = option3;
+                    break;
+                default:
+                    return;
+            }
+            //GameManager.Instance.UpdateGameState(GameManager.GameState.ShootBomb);
+        }
+    }
+
+
+    public void ShootBomb(Bomb bomb,RaycastHit hit)
+    {
+        for (int i = 0; i < bomb.size; i++)
+        {
+            for (int j = 0; j < bomb.size; j++)
+            {
+                var target = GameObject.Find(hit.transform.gameObject.name);
+                if ((bomb.bombPattern[i, j] != 0)) 
+                {
+                    var chosen = GameObject.Find($"Soldier {target.transform.position.x + i - 1} {target.transform.position.y + j - 1}");
+                    //var chosen = GridManager.Instance.soldiers;
+                    if (chosen != null)
+                    {
+                        Soldier chosenSoldier = chosen.GetComponent<Soldier>();
+                        chosenSoldier.health = Mathf.Min(Mathf.Max(chosenSoldier.health - bomb.bombPattern[i, j], 0), 300);
+                        if ((chosenSoldier.playerSide == Soldier.Side.Allies) || (chosenSoldier.playerSide == Soldier.Side.Axis))
+                        {
+                            AnimationManager.Instance.ExplosionPlay(chosenSoldier);
+                            var hlObject = GameObject.Find($"Highlight {chosenSoldier.position.x} {chosenSoldier.position.y}");
+                            Highlight hl = hlObject.GetComponent<Highlight>();
+                            //hl.GetComponent<Animator>().enabled = false;
+                            chosenSoldier.isDead();
+                            chosenSoldier.UpdateHealthbar();
+                            //if (chosenSoldier.playerSide == Soldier.Side.Allies) { Soldier.diedAllieThisTurns++; } else { Soldier.diedAxisThisTurn++; }
+
+                        }
+                        else if (chosenSoldier.playerSide == Soldier.Side.None)
+                        {
+                            chosenSoldier.ChangeSide(bomb.bombPattern[i, j] > 0 ? Soldier.Side.BombedZone : Soldier.Side.HealedZone);
+                        }
+                        /* RED HIGHLIGHT THE DAMAGED ZONES
+                        var damageHighlight = GameObject.Find($"Highlight {target.transform.position.x + i - 1} {target.transform.position.y + j - 1}");
+                        var highlightColor = Color.red;
+                        highlightColor.a = 0.5f;
+                        damageHighlight.GetComponent<SpriteRenderer>().color = highlightColor;
+                         */
+                    }
+                }
+            }
+        }
+
+        ReplaceOption();
+
+        chosenOption = null;
+
+        GameManager.Instance.nextTurn();
+
+        //GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
 
     }
 

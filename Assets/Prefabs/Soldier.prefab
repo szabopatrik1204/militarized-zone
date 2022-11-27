@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 3
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.754717, g: 0.2242791, b: 0.2242791, a: 1}
+  m_Color: {r: 0.35686275, g: 0.43137255, b: 0.88235295, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -110,7 +110,7 @@ Transform:
   m_GameObject: {fileID: 2946439478992024625}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.2, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.15, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3062796516757741511}
@@ -158,7 +158,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.3773585, g: 0.35777858, b: 0.35777858, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -192,8 +192,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3198542183273826724}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.15, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.333, z: 0}
+  m_LocalScale: {x: 1, y: 0.56, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 332823178115477515}
@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 3239729797027322594}
   - component: {fileID: 4112236194290742426}
   - component: {fileID: 5136113417776528229}
+  - component: {fileID: 7938081393198683813}
   m_Layer: 0
   m_Name: Soldier
   m_TagString: Untagged
@@ -252,11 +253,17 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   playerSide: 2
   spriteRenderer: {fileID: 4112236194290742426}
-  Allies: {fileID: 21300000, guid: 56529d4efaa2a2440b20ad32558ddcc4, type: 3}
-  Axis: {fileID: 21300000, guid: 686ee46113afc184d92fb67ac0e98378, type: 3}
-  FlagBlue: {fileID: 21300000, guid: 4e07c8029716dd04f889f7f9c7086799, type: 3}
-  FlagRed: {fileID: 21300000, guid: eb87f5d162b47f64f9c9e5a8ac01d5cd, type: 3}
+  Allies: {fileID: 21300000, guid: 36866177967fafd4d8d19a422b57a4ca, type: 3}
+  Axis: {fileID: 21300000, guid: cc6a7a54e74ca694aa05d6b7b0766927, type: 3}
+  FlagBlue: {fileID: 21300000, guid: 934a6030059ee7b468e514114e80a632, type: 3}
+  FlagRed: {fileID: 21300000, guid: 0d46aac860c09e446b30655a13bed29b, type: 3}
+  BombedZone: {fileID: 21300000, guid: 863e9648fb0cff846a378077972269fc, type: 3}
+  HealedZone: {fileID: 21300000, guid: bf24a8cb6dc499044acf8c23958c31b3, type: 3}
+  HealedZone2: {fileID: 21300000, guid: 8b72b796f6a5f994ebb603e8ff23100d, type: 3}
   HpBar: {fileID: 3198542183273826724}
+  healthSprite: {fileID: 1315176414309252309}
+  currentHp: {fileID: 3938928679570799204}
+  animator: {fileID: 7938081393198683813}
 --- !u!212 &4112236194290742426
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -322,6 +329,26 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &7938081393198683813
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3239729797027322605}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 210d64bdb2f1dea479f279218672e1df, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3938928679570799204
 GameObject:
   m_ObjectHideFlags: 0
