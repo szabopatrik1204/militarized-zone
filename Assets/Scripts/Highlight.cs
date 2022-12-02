@@ -78,9 +78,9 @@ public class Highlight : MonoBehaviour
     {
         if (GameManager.Instance.State == GameManager.GameState.FlagCarrierSpawningAllies)
         {
-            for (int y = 0; y < GridManager.Instance.width; y++)
+            for (int x = 0; x < GridManager.Instance.width; x++)
             {
-                var flagHighlight = GameObject.Find($"Highlight {GridManager.Instance.width-1} {y}");
+                var flagHighlight = GameObject.Find($"Highlight {x} {GridManager.Instance.height - 1}");
                 var highlightColor = Color.white;
                 highlightColor.a = 0.5f;
                 flagHighlight.GetComponent<SpriteRenderer>().color = highlightColor;
@@ -88,9 +88,9 @@ public class Highlight : MonoBehaviour
         }
         if (GameManager.Instance.State == GameManager.GameState.FlagCarrierSpawningAxis)
         {
-            for (int y = 0; y < GridManager.Instance.width; y++)
+            for (int x = 0; x < GridManager.Instance.width; x++)
             {
-                var flagHighlight = GameObject.Find($"Highlight {0} {y}");
+                var flagHighlight = GameObject.Find($"Highlight {x} {0}");
                 var highlightColor = Color.white;
                 highlightColor.a = 0.5f;
                 flagHighlight.GetComponent<SpriteRenderer>().color = highlightColor;

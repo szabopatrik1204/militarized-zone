@@ -25,20 +25,20 @@ public class FlagManager : MonoBehaviour
             int step = 1;
             GameObject newObject = GameObject.Find($"Soldier {Spawner.Instance.AlliesFlag.position.x} {Spawner.Instance.AlliesFlag.position.y}");
 
-            Debug.Log(newObject.GetComponent<Soldier>().position.x - 1);
+            Debug.Log(newObject.GetComponent<Soldier>().position.y - 1);
 
             //Jump above Allies
             do
             {
-                newObject = GameObject.Find($"Soldier {Spawner.Instance.AlliesFlag.position.x - step} {Spawner.Instance.AlliesFlag.position.y}");
+                newObject = GameObject.Find($"Soldier {Spawner.Instance.AlliesFlag.position.x} {Spawner.Instance.AlliesFlag.position.y - step}");
                 if (newObject != null)
                 {
                     newFlag = newObject.GetComponent<Soldier>();
                     step++;
                 }
-                Debug.Log($"Allies {Spawner.Instance.AlliesFlag.position.x - step} {Spawner.Instance.AlliesFlag.position.y}");
+                Debug.Log($"Allies {Spawner.Instance.AlliesFlag.position.y - step} {Spawner.Instance.AlliesFlag.position.y}");
 
-            } while ((newFlag.position.x != 0) && (newFlag.playerSide == Soldier.Side.Allies));
+            } while ((newFlag.position.y != 0) && (newFlag.playerSide == Soldier.Side.Allies));
 
 
 
@@ -58,7 +58,7 @@ public class FlagManager : MonoBehaviour
                 break;
             }
             //Allies got to the end point and won
-            if(newFlag.position.x == 0)
+            if(newFlag.position.y == 0)
             {
                 GameManager.Instance.UpdateGameState(GameManager.GameState.EndGame);
                 GameManager.Instance.WinnerText.text = "Allies won";
@@ -78,20 +78,20 @@ public class FlagManager : MonoBehaviour
             int step = 1;
             GameObject newObject = GameObject.Find($"Soldier {Spawner.Instance.AxisFlag.position.x} {Spawner.Instance.AxisFlag.position.y}");
 
-            Debug.Log(newObject.GetComponent<Soldier>().position.x);
+            Debug.Log(newObject.GetComponent<Soldier>().position.y);
 
             //Jump above Axis
             do
             {
-                newObject = GameObject.Find($"Soldier {Spawner.Instance.AxisFlag.position.x + step} {Spawner.Instance.AxisFlag.position.y}");
+                newObject = GameObject.Find($"Soldier {Spawner.Instance.AxisFlag.position.x} {Spawner.Instance.AxisFlag.position.y + step}");
                 if (newObject != null)
                 {
                     newFlag = newObject.GetComponent<Soldier>();
                     step++;
                 }
-                Debug.Log($"Axis {Spawner.Instance.AxisFlag.position.x + step} {Spawner.Instance.AxisFlag.position.y}");
+                Debug.Log($"Axis {Spawner.Instance.AxisFlag.position.x} {Spawner.Instance.AxisFlag.position.y + step}");
 
-            } while ((newFlag.position.x != GridManager.Instance.width - 1) && (newFlag.playerSide == Soldier.Side.Axis));
+            } while ((newFlag.position.y != GridManager.Instance.width - 1) && (newFlag.playerSide == Soldier.Side.Axis));
 
             //Soldier at empty space
             if (newFlag.playerSide == Soldier.Side.None)
@@ -109,7 +109,7 @@ public class FlagManager : MonoBehaviour
                 break;
             }
             //Axis got to the end point and won
-            if (newFlag.position.x == GridManager.Instance.width - 1)
+            if (newFlag.position.y == GridManager.Instance.height - 1)
             {
                 GameManager.Instance.UpdateGameState(GameManager.GameState.EndGame);
                 GameManager.Instance.WinnerText.text = "Axis won";

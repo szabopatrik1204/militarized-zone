@@ -106,7 +106,7 @@ public class Spawner : MonoBehaviour
         {
             if (GameManager.Instance.State == GameManager.GameState.FlagCarrierSpawningAllies )
             {
-                if (clickedSoldier.position.x == GridManager.Instance.width - 1)
+                if (clickedSoldier.position.y == GridManager.Instance.height - 1)
                 {
                     Highlight.Instance.ClearHighlight();
                     clickedSoldier.Init(200, clickedSoldier.position, Soldier.Side.FlagCarrierAllies);
@@ -118,7 +118,7 @@ public class Spawner : MonoBehaviour
             }
             else if (GameManager.Instance.State == GameManager.GameState.FlagCarrierSpawningAxis)
             {
-                if (clickedSoldier.position.x == 0)
+                if (clickedSoldier.position.y == 0)
                 {
                     Highlight.Instance.ClearHighlight();
                     clickedSoldier.Init(200, clickedSoldier.position, Soldier.Side.FlagCarrierAxis);
