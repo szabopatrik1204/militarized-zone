@@ -81,8 +81,8 @@ public class Highlight : MonoBehaviour
             for (int x = 0; x < GridManager.Instance.width; x++)
             {
                 var flagHighlight = GameObject.Find($"Highlight {x} {GridManager.Instance.height - 1}");
-                var highlightColor = Color.white;
-                highlightColor.a = 0.5f;
+                var highlightColor = Color.blue;
+                highlightColor.a = 0.3f;
                 flagHighlight.GetComponent<SpriteRenderer>().color = highlightColor;
             }
         }
@@ -91,8 +91,8 @@ public class Highlight : MonoBehaviour
             for (int x = 0; x < GridManager.Instance.width; x++)
             {
                 var flagHighlight = GameObject.Find($"Highlight {x} {0}");
-                var highlightColor = Color.white;
-                highlightColor.a = 0.5f;
+                var highlightColor = Color.yellow;
+                highlightColor.a = 0.3f;
                 flagHighlight.GetComponent<SpriteRenderer>().color = highlightColor;
             }
         }

@@ -27,6 +27,13 @@ public class BombManager : MonoBehaviour
 
     public Color zeroColor;
 
+
+    public Sprite question_damage;
+    public Sprite no_damage;
+    public Sprite low_damage;
+    public Sprite medium_damage;
+    public Sprite high_damage;
+
     private void Awake()
     {
         Instance = this;
@@ -49,6 +56,8 @@ public class BombManager : MonoBehaviour
     {
         Destroy(GameObject.Find(name));
     }
+
+    
 
     public void ReplaceOption()
     {
@@ -149,29 +158,65 @@ public class BombManager : MonoBehaviour
                 {
                     int cellDamage = bomb.bombPattern[i, j];
                     var chosen = GameObject.Find($"Block{option} {i} {j}");
-                    chosen.GetComponent<Image>().color = zeroColor;
-                    chosen.GetComponent<Image>().transform.GetChild(0).GetComponent<TMP_Text>().text = "?";
+                    Image image = chosen.GetComponent<Image>();
+                    image.sprite = question_damage;
+                    image.color = damageColor;
+                    //chosen.GetComponent<Image>().transform.GetChild(0).GetComponent<TMP_Text>().text = "?";
                 }
                 else if (bomb.bombPattern[i, j] > 0)
                 {
                     int cellDamage = bomb.bombPattern[i, j];
                     var chosen = GameObject.Find($"Block{option} {i} {j}");
-                    chosen.GetComponent<Image>().color = damageColor;
-                    chosen.GetComponent<Image>().transform.GetChild(0).GetComponent<TMP_Text>().text = ((cellDamage / 10)).ToString();
+                    Image image = chosen.GetComponent<Image>();
+                    switch (cellDamage / 10)
+                    {
+                        case 0:
+                            image.sprite = no_damage;
+                            break;
+                        case <= 8:
+                            image.sprite = low_damage;
+                            break;
+                        case > 8 and <= 10:
+                            image.sprite = medium_damage;
+                            break;
+                        case > 10:
+                            image.sprite = high_damage;
+                            break;
+                    }
+                    image.color = damageColor;
+                    //chosen.GetComponent<Image>().transform.GetChild(0).GetComponent<TMP_Text>().text = ((cellDamage / 10)).ToString();
 
                 }
                 else if (bomb.bombPattern[i, j] < 0)
                 {
                     int cellDamage = bomb.bombPattern[i, j];
                     var chosen = GameObject.Find($"Block{option} {i} {j}");
-                    chosen.GetComponent<Image>().color = healColor;
-                    chosen.GetComponent<Image>().transform.GetChild(0).GetComponent<TMP_Text>().text = Mathf.Abs(cellDamage / 10).ToString();
+                    Image image = chosen.GetComponent<Image>();
+                    switch (cellDamage / 10)
+                    {
+                        case 0:
+                            image.sprite = no_damage;
+                            break;
+                        case <= 8:
+                            image.sprite = low_damage;
+                            break;
+                        case > 8 and <= 10:
+                            image.sprite = medium_damage;
+                            break;
+                        case > 10:
+                            image.sprite = high_damage;
+                            break;
+                    }
+                    image.color = healColor;
+                    //chosen.GetComponent<Image>().transform.GetChild(0).GetComponent<TMP_Text>().text = Mathf.Abs(cellDamage / 10).ToString();
 
                 }
                 else if (bomb.bombPattern[i, j] == 0)
                 {
                     var chosen = GameObject.Find($"Block{option} {i} {j}");
-                    chosen.GetComponent<Image>().color = zeroColor;
+                    Image image = chosen.GetComponent<Image>();
+                    image.sprite = no_damage;
+                    image.color = zeroColor;
                 }
 
             }
@@ -201,7 +246,7 @@ public class BombManager : MonoBehaviour
             {
                     var chosen = GameObject.Find($"Block{option} {i} {j}");
                     chosen.GetComponent<Image>().color = zeroColor;
-                    chosen.GetComponent<Image>().transform.GetChild(0).GetComponent<TMP_Text>().text = "0";
+                    //chosen.GetComponent<Image>().transform.GetChild(0).GetComponent<TMP_Text>().text = "0";
             }
         }
     }

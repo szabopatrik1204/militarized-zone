@@ -112,6 +112,7 @@ public class Spawner : MonoBehaviour
                     clickedSoldier.Init(200, clickedSoldier.position, Soldier.Side.FlagCarrierAllies);
                     AlliesFlag = clickedSoldier;
                     Tile.ColorTile(clickedSoldier);
+                    GameManager.Instance.nextTurn();
                     GameManager.Instance.UpdateGameState(GameManager.GameState.FlagCarrierSpawningAxis);
                     GameManager.Instance.Console.text += $"Kek zaszlo elhelyezve!\n";
                 }
@@ -124,6 +125,7 @@ public class Spawner : MonoBehaviour
                     clickedSoldier.Init(200, clickedSoldier.position, Soldier.Side.FlagCarrierAxis);
                     AxisFlag = clickedSoldier;
                     Tile.ColorTile(clickedSoldier);
+                    GameManager.Instance.nextTurn();
                     GameManager.Instance.UpdateGameState(GameManager.GameState.ShootBomb);
                     GameManager.Instance.Console.text += $"Piros zaszlo elhelyezve!\n";
                     AnimationManager.Instance.IdleSide(Soldier.Side.Allies);
