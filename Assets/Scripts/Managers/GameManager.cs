@@ -103,6 +103,17 @@ public class GameManager : MonoBehaviour
     public void nextTurn()
     {
         RefreshAliveText();
+        if (Soldier.listAllies().Count() == 0)
+        {
+            UpdateGameState(GameState.EndGame);
+            WinnerText.text = "Axis won";
+        }
+        else if(Soldier.listAxis().Count() == 0)
+        {
+            UpdateGameState(GameState.EndGame);
+            WinnerText.text = "Allies won";
+        }
+
         if (turn == Turn.Axis)
         {
             UpdateGameState(GameState.FlagTurn);
