@@ -17,7 +17,6 @@ public class SoundManager : MonoBehaviour
         Source.enabled = true;
     }
 
-
     public static void playBoom()
     {
         Source.Play();

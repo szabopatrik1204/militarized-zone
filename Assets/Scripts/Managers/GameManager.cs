@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
     public GameObject AxisTurnIndicator;
     public GameObject AlliesTurnIndicator;
 
+    public GameObject clickToContinue;
+
     public Image Option1Image;
     public Image Option2Image;
     public Image Option3Image;
@@ -60,12 +62,17 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        UpdateGameState(GameState.MapGenerate);
+        UpdateGameState(GameState.ClickToContinue);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetMouseButtonDown(0) && (GameState.ClickToContinue == GameManager.Instance.State))
+        {
+            clickToContinue.gameObject.SetActive(false);
+            UpdateGameState(GameState.MapGenerate);
+        }
         //mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
@@ -85,6 +92,8 @@ public class GameManager : MonoBehaviour
 
         switch (newState)
         {
+            case GameState.ClickToContinue:
+                break;
             case GameState.MapGenerate:
                 GridManager.Instance.GenerateGrid();
                 break;
@@ -222,6 +231,7 @@ public class GameManager : MonoBehaviour
 
     public enum GameState
     {
+        ClickToContinue = -1,
         MapGenerate = 0,
         BombOptionGenerate = 1,
         SoldierSpawning = 2,
