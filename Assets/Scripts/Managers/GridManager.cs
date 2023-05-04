@@ -18,6 +18,8 @@ public class GridManager : MonoBehaviour
 
     [SerializeField] private GameObject highlightPrefab;
 
+    [SerializeField] private GameObject mapBackgroundPrefab;
+
     [SerializeField] private Camera cam;
 
     public Dictionary<Vector2, Tile> tiles;
@@ -25,6 +27,8 @@ public class GridManager : MonoBehaviour
     public Dictionary<Vector2, Soldier> soldiers;
 
     public Dictionary<Vector2, GameObject> highlights;
+
+    public CursorManager cursorManager;
 
 
     private void Awake()
@@ -97,6 +101,9 @@ public class GridManager : MonoBehaviour
                 tiles[new Vector2(x, y)] = spawnedTile;
             }
         }
+
+        var mapBg = Instantiate(mapBackgroundPrefab, new Vector3((float)width / 2 - 0.5f, (float)height / 2 - 0.5f, 0), Quaternion.identity);
+        mapBg.name = "Map Background";
 
         cam.transform.position = new Vector3((float)width / 2 - 0.5f, (float)height / 2 - 0.5f, -1);
         cam.orthographicSize = 5;

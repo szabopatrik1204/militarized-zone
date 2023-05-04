@@ -20,7 +20,7 @@ public class Highlight : MonoBehaviour
         {
             if (BombManager.Instance.chosenOption != null)
             {
-
+                CursorManager.Instance.changeToPointer();
                 RaycastHit hit;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out hit))
@@ -33,14 +33,44 @@ public class Highlight : MonoBehaviour
                 }
             }
         }
+        if (GameManager.Instance.State == GameManager.GameState.FlagCarrierSpawningAllies ||
+            GameManager.Instance.State == GameManager.GameState.FlagCarrierSpawningAxis)
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.transform != null)
+                {
+                    CursorManager.Instance.changeToPointer();
+                    var target = GameObject.Find(hit.transform.gameObject.name);
+                    var cursorHighlight = GameObject.Find($"Highlight {target.transform.position.x} {target.transform.position.y}");
+
+                    if (((cursorHighlight.transform.position.y == GridManager.Instance.height - 1) && (GameManager.Instance.State == GameManager.GameState.FlagCarrierSpawningAllies)) ||
+                        ((cursorHighlight.transform.position.y == 0) && (GameManager.Instance.State == GameManager.GameState.FlagCarrierSpawningAxis)))
+                    {
+                        var highlightColor = Color.black;
+                        highlightColor.a = 0.5f;
+                        cursorHighlight.GetComponent<SpriteRenderer>().color = highlightColor;
+                    }
+                }
+            }
+        }
     }
 
     private void OnMouseExit()
     {
+        CursorManager.Instance.changeToNormal();
         if (GameManager.Instance.State == GameManager.GameState.ShootBomb)
         {
             this.ClearHighlight();
         }
+        if (GameManager.Instance.State == GameManager.GameState.FlagCarrierSpawningAllies ||
+            GameManager.Instance.State == GameManager.GameState.FlagCarrierSpawningAxis)
+        {
+            this.FlagHelperHighlight();
+        }
+
     }
 
     public void HighlightHelper(Bomb bomb, RaycastHit hit)

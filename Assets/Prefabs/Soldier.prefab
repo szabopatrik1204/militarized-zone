@@ -257,7 +257,7 @@ MonoBehaviour:
   Axis: {fileID: 21300000, guid: cc6a7a54e74ca694aa05d6b7b0766927, type: 3}
   FlagBlue: {fileID: 21300000, guid: 934a6030059ee7b468e514114e80a632, type: 3}
   FlagRed: {fileID: 21300000, guid: 0d46aac860c09e446b30655a13bed29b, type: 3}
-  BombedZone: {fileID: 21300000, guid: 863e9648fb0cff846a378077972269fc, type: 3}
+  BombedZone: {fileID: 21300000, guid: e5625ecbcba7fef488e28a750db4b66a, type: 3}
   HealedZone: {fileID: 21300000, guid: bf24a8cb6dc499044acf8c23958c31b3, type: 3}
   HealedZone2: {fileID: 21300000, guid: 8b72b796f6a5f994ebb603e8ff23100d, type: 3}
   HpBar: {fileID: 3198542183273826724}

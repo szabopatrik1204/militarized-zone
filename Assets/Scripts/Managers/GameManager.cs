@@ -32,9 +32,16 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI AxisAlive;
 
+    public GameObject AxisTurnIndicator;
+    public GameObject AlliesTurnIndicator;
+
     public Image Option1Image;
     public Image Option2Image;
     public Image Option3Image;
+
+    //public GameObject Cannon;
+    //Vector3 mousePos;
+    //Rigidbody2D rb;
 
     private void Awake()
     {
@@ -45,6 +52,9 @@ public class GameManager : MonoBehaviour
         Option3Image.color = Soldier.AlliesColor;
 
         turn = Turn.Allies;
+
+        //rb = Cannon.GetComponent<Rigidbody2D>();
+
     }
 
     // Start is called before the first frame update
@@ -56,7 +66,17 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    }
+
+    private void FixedUpdate()
+    {
+        //Vector3 lookDir = mousePos - Cannon.transform.position;
+        //Cannon.transform.Rotate(lookDir);
+
+        /*Vector2 lookDir = mousePos - rb.position;
+        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
+        rb.rotation = angle;*/
     }
 
     public void UpdateGameState(GameState newState)
@@ -92,7 +112,9 @@ public class GameManager : MonoBehaviour
             case GameState.EndGame:
                 EndGameCanvas.SetActive(true);
                 break;
-
+            case GameState.EndByNuke:
+                nukeEndGame();
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
@@ -122,6 +144,10 @@ public class GameManager : MonoBehaviour
             Option2Image.color = Soldier.AlliesColor;
             Option3Image.color = Soldier.AlliesColor;
             AnimationManager.Instance.IdleSide(Soldier.Side.Allies);
+            GameObject.Find("Map Background").GetComponent<SpriteRenderer>().color = Soldier.AlliesColor;
+            //AlliesTurnIndicator.SetActive(true);
+            //AxisTurnIndicator.SetActive(false);
+
         }
         else
         {
@@ -130,7 +156,62 @@ public class GameManager : MonoBehaviour
             Option2Image.color = Soldier.AxisColor;
             Option3Image.color = Soldier.AxisColor;
             AnimationManager.Instance.IdleSide(Soldier.Side.Axis);
+            GameObject.Find("Map Background").GetComponent<SpriteRenderer>().color = Soldier.AxisColor;
+            //AxisTurnIndicator.SetActive(true);
+            //AlliesTurnIndicator.SetActive(false);           
+
         }
+    }
+
+    public void nukeEndGame()
+    {
+
+        int alliesHealth = 0;
+        int axisHealth = 0;
+
+        RefreshAliveText();
+        if ((Soldier.listAllies().Count() == 0) && (Soldier.listAxis().Count() == 0))
+        {
+            UpdateGameState(GameState.EndGame);
+            WinnerText.text = "Tie";
+        }
+        else if (Soldier.listAllies().Count() == 0)
+        {
+            UpdateGameState(GameState.EndGame);
+            WinnerText.text = "Axis won";
+        }
+        else if (Soldier.listAxis().Count() == 0)
+        {
+            UpdateGameState(GameState.EndGame);
+            WinnerText.text = "Allies won";
+        }
+
+        foreach (Soldier soldier in Soldier.listAllies())
+        {
+            alliesHealth += soldier.health;
+        }
+
+        foreach (Soldier soldier in Soldier.listAxis())
+        {
+            axisHealth += soldier.health;
+        }
+
+        if (axisHealth > alliesHealth)
+        {
+            UpdateGameState(GameState.EndGame);
+            WinnerText.text = "Axis won";
+        }
+        else if (alliesHealth > axisHealth)
+        {
+            UpdateGameState(GameState.EndGame);
+            WinnerText.text = "Allies won";
+        }
+        else if (alliesHealth == axisHealth)
+        {
+            UpdateGameState(GameState.EndGame);
+            WinnerText.text = "Tie";
+        }
+
     }
 
     public void RefreshAliveText()
@@ -149,6 +230,7 @@ public class GameManager : MonoBehaviour
         ShootBomb = 5,
         FlagTurn = 6,
         EndGame = 7,
+        EndByNuke = 8,
     }
 
     public enum Turn

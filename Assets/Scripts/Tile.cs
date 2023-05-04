@@ -13,7 +13,6 @@ public class Tile : MonoBehaviour
     [SerializeField] private Sprite tile2;
     public Bomb bombPrefab;
 
-
     private List<Tile> bombedTiles = new List<Tile>();
 
     public void Init(bool isOffset)
@@ -38,47 +37,6 @@ public class Tile : MonoBehaviour
     private void Start()
     {
         
-    }
-
-    void OnMouseEnter()
-    { 
-        /*
-        var bombie = Instantiate(bombPrefab, new Vector3(0, 0), Quaternion.identity);
-        bombie.Init(Bomb.Pattern.plusPattern, 100, 3);
-
-        for (int i = 0; i < bombie.size; i++)
-        {
-            for (int j = 0; j < bombie.size; j++)
-            {
-                /*
-                if (bombie.bombPattern[i, j] == 1)
-                {
-                    Vector2 tileVector = new Vector2(this.transform.position.x + i - 1, this.transform.position.y + j - 1);
-                    var tileEnum = GridManager.Instance.tiles.Where(t => t.Key == tileVector).Select(t => t.Value);
-                    foreach (var tile in tileEnum)
-                    {
-                        GameObject highl = tile.GetComponent<GameObject>();
-                        bombedTiles.Add(tile.GetComponent<Tile>());
-                        GameObject child = tile.transform.GetChild(0).gameObject;
-                        Debug.Log($"{tile.transform.position}");
-                        child.SetActive(true);
-                    }
-                }
-
-                Vector2 tileVector = new Vector2(this.transform.position.x + i - 1, this.transform.position.y + j - 1);
-                var tileEnum = GridManager.Instance.tiles.Where(t => t.Key == tileVector).Select(t => t.Value);
-                foreach (var tile in tileEnum)
-                {
-                    GameObject highl = tile.GetComponent<GameObject>();
-                    bombedTiles.Add(tile.GetComponent<Tile>());
-                    GameObject child = tile.transform.GetChild(0).gameObject;
-                    child.SetActive(true);
-                }
-
-
-            }
-        } */
-
     }
     private void OnMouseDown()
     {
@@ -112,10 +70,6 @@ public class Tile : MonoBehaviour
         var tileObject = GameObject.Find($"Tile {x} {y}");
         Tile tile = tileObject.GetComponent<Tile>();
         tile.spriteRenderer.color = Tile.baseColor;
-    }
-
-        void OnMouseExit()
-    {
     }
 
 }

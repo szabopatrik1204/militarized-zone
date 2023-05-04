@@ -27,6 +27,7 @@ public class BombManager : MonoBehaviour
 
     public Color zeroColor;
 
+    public GameObject explosionPrefab;
 
     public Sprite question_damage;
     public Sprite no_damage;
@@ -277,6 +278,7 @@ public class BombManager : MonoBehaviour
 
     public void ShootBomb(Bomb bomb,RaycastHit hit)
     {
+        SoundManager.playBoom();
         for (int i = 0; i < bomb.size; i++)
         {
             for (int j = 0; j < bomb.size; j++)
@@ -311,6 +313,9 @@ public class BombManager : MonoBehaviour
                         highlightColor.a = 0.5f;
                         damageHighlight.GetComponent<SpriteRenderer>().color = highlightColor;
                          */
+                        //ANIMATION
+                        var explosionObject = Instantiate(explosionPrefab, chosenSoldier.transform.position + new Vector3(0, 0, 0), chosenSoldier.transform.rotation);
+                        Destroy(explosionObject, 5f);
                     }
                 }
             }
@@ -324,6 +329,27 @@ public class BombManager : MonoBehaviour
 
         //GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
 
+    }
+
+    public void NukeBomb()
+    {
+        for (int i = 0; i < GridManager.Instance.height; i++)
+        {
+            for (int j = 0; j < GridManager.Instance.width; j++)
+            {
+                var target = GameObject.Find($"Soldier {i} {j}");
+                Soldier soldier = target.GetComponent<Soldier>();
+                if ((soldier.playerSide == Soldier.Side.Allies) || (soldier.playerSide == Soldier.Side.Axis))
+                {
+                    if (Random.Range(0,2) == 1)
+                    {
+                        soldier.health = 0;
+                        soldier.isDead();
+                        soldier.UpdateHealthbar();
+                    }
+                }
+            }
+        }
     }
 
 }
