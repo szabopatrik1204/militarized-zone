@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -13,8 +14,6 @@ public class GameManager : MonoBehaviour
     public GameState State;
 
     public Turn turn;
-
-    public static event Action<GameState> OnGameStateChanged;
 
     public static int numberOfSpawnedSoldiers = 13;
 
@@ -31,6 +30,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI AlliesAlive;
 
     public TextMeshProUGUI AxisAlive;
+
+    public GameObject RestartButton;
 
     public GameObject AxisTurnIndicator;
     public GameObject AlliesTurnIndicator;
@@ -55,6 +56,8 @@ public class GameManager : MonoBehaviour
 
         turn = Turn.Allies;
 
+        RestartButton.GetComponent<Button>().onClick.AddListener(restartOnClick);
+        clickToContinue.SetActive(true);
         //rb = Cannon.GetComponent<Rigidbody2D>();
 
     }
@@ -120,15 +123,27 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.EndGame:
                 EndGameCanvas.SetActive(true);
+                canRestartGame();
                 break;
             case GameState.EndByNuke:
                 nukeEndGame();
+                canRestartGame();
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
 
-        OnGameStateChanged?.Invoke(newState);
+    }
+
+    public void canRestartGame()
+    {
+        RestartButton.SetActive(true);
+        
+    }
+
+    public void restartOnClick()
+    {
+        SceneManager.LoadScene("BombZone");
     }
 
     public void nextTurn()
@@ -137,12 +152,12 @@ public class GameManager : MonoBehaviour
         if (Soldier.listAllies().Count() == 0)
         {
             UpdateGameState(GameState.EndGame);
-            WinnerText.text = "Axis won";
+            WinnerText.text = "Sárga nyert";
         }
         else if(Soldier.listAxis().Count() == 0)
         {
             UpdateGameState(GameState.EndGame);
-            WinnerText.text = "Allies won";
+            WinnerText.text = "Kék nyert";
         }
 
         if (turn == Turn.Axis)
@@ -182,17 +197,17 @@ public class GameManager : MonoBehaviour
         if ((Soldier.listAllies().Count() == 0) && (Soldier.listAxis().Count() == 0))
         {
             UpdateGameState(GameState.EndGame);
-            WinnerText.text = "Tie";
+            WinnerText.text = "Döntetlen";
         }
         else if (Soldier.listAllies().Count() == 0)
         {
             UpdateGameState(GameState.EndGame);
-            WinnerText.text = "Axis won";
+            WinnerText.text = "Sárga nyert";
         }
         else if (Soldier.listAxis().Count() == 0)
         {
             UpdateGameState(GameState.EndGame);
-            WinnerText.text = "Allies won";
+            WinnerText.text = "Kék nyert";
         }
 
         foreach (Soldier soldier in Soldier.listAllies())
@@ -208,17 +223,17 @@ public class GameManager : MonoBehaviour
         if (axisHealth > alliesHealth)
         {
             UpdateGameState(GameState.EndGame);
-            WinnerText.text = "Axis won";
+            WinnerText.text = "Sárga nyert";
         }
         else if (alliesHealth > axisHealth)
         {
             UpdateGameState(GameState.EndGame);
-            WinnerText.text = "Allies won";
+            WinnerText.text = "Kék nyert";
         }
         else if (alliesHealth == axisHealth)
         {
             UpdateGameState(GameState.EndGame);
-            WinnerText.text = "Tie";
+            WinnerText.text = "Döntetlen";
         }
 
     }

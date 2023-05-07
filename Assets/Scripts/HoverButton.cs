@@ -8,6 +8,7 @@ public class HoverButton : MonoBehaviour , IPointerEnterHandler, IPointerExitHan
 {
     public void OnPointerEnter(PointerEventData eventData)
     {
+        CursorManager.Instance.changeToPointer();
         if (GameManager.Instance.turn == GameManager.Turn.Axis)
         {
             this.GetComponent<Image>().color = Soldier.AxisHealthColor;
@@ -20,6 +21,7 @@ public class HoverButton : MonoBehaviour , IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        CursorManager.Instance.changeToNormal();
         if (GameManager.Instance.turn == GameManager.Turn.Axis)
         {
             this.GetComponent<Image>().color = Soldier.AxisColor;

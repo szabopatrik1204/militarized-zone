@@ -20,9 +20,7 @@ public class NukeButton : MonoBehaviour
     {
         alliesNuke = false;
         axisNuke = false;
-    }
-
-    
+    }    
 
     public void nukeButtonPressed()
     {

@@ -305,7 +305,7 @@ public class BombManager : MonoBehaviour
                         }
                         else if (chosenSoldier.playerSide == Soldier.Side.None)
                         {
-                            chosenSoldier.ChangeSide(bomb.bombPattern[i, j] > 0 ? Soldier.Side.BombedZone : Soldier.Side.HealedZone);
+                            chosenSoldier.ChangeSide(bomb.bombPattern[i, j] > 0 ? Soldier.Side.BombedZone : Soldier.Side.BombedZone);
                         }
                         /* RED HIGHLIGHT THE DAMAGED ZONES
                         var damageHighlight = GameObject.Find($"Highlight {target.transform.position.x + i - 1} {target.transform.position.y + j - 1}");
