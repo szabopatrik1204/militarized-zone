@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 40e9c6d8ebe0dee46b55c25febaf6a00
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - alliesBox: {fileID: 21300000, guid: 74130177e8163ec4cb4f87c306d686d9, type: 3}
+  - alliesBoxTick: {fileID: 21300000, guid: 12f36cbd042ee8143ae8f244602dafe7, type: 3}
+  - axisBox: {fileID: 21300000, guid: a550b9eb9113d0b41bb823595d62eae9, type: 3}
+  - axisBoxTick: {fileID: 21300000, guid: 1c99cf0d65630ec49b690ecc01a307fa, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

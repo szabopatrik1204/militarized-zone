@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 5ca51084e4fc45f4daf4b53da3fbc68d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - spriteRenderer: {instanceID: 0}
+  - highlight: {instanceID: 0}
+  - tile1: {instanceID: 0}
+  - tile2: {instanceID: 0}
+  - bombPrefab: {instanceID: 0}
+  - cursorTexture: {fileID: 2800000, guid: 90e6442a4e6fb7c4b80e0e3622e1d318, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
