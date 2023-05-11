@@ -116,7 +116,6 @@ public class GridManager : MonoBehaviour
     {
         float spawnPositionX = Random.Range(0, width);
         float spawnPositionY = Random.Range(0, height);
-        //return (Tile) tiles.Where(t => t.Key == new Vector2(spawnPositionX, spawnPositionY));
 
         return new Vector2(spawnPositionX, spawnPositionY);
     }
