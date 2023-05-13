@@ -41,18 +41,6 @@ public class BombManager : MonoBehaviour
         chosenOption = null;
     }
 
-    /*
-        var bomb = Instantiate(bombPrefab, new Vector3(0, 0), Quaternion.identity);
-
-        bomb.Init(Bomb.Pattern.xPattern, 100, 3);
-
-        Debug.Log(bomb.bombPattern);
-
-        foreach (int cell in bomb.bombPattern)
-         }
-        BombManager.Instance.DrawPattern(bomb,1);
-    */
-
     public void DestroyOption(string name)
     {
         Destroy(GameObject.Find(name));
@@ -120,15 +108,12 @@ public class BombManager : MonoBehaviour
 
         var values = Bomb.Pattern.GetValues(typeof(Bomb.Pattern));
 
-        //string randomBar = (string)values.GetValue(Random.Range(0,values.Length));
         Bomb.Pattern randomBar = (Bomb.Pattern)values.GetValue(Random.Range(0, values.Length));
 
         option1 = Instantiate(bombPrefab, new Vector3(0, 0), Quaternion.identity);
         option1.Init(randomBar, 100, 3);
         option1.name = $"Option 1 Bomb";
         DrawPattern(option1, 1);
-
-        //randomBar = (string)values.GetValue(Random.Range(0, values.Length));
 
         randomBar = (Bomb.Pattern) values.GetValue(Random.Range(0, values.Length));
 
@@ -162,7 +147,6 @@ public class BombManager : MonoBehaviour
                     Image image = chosen.GetComponent<Image>();
                     image.sprite = question_damage;
                     image.color = damageColor;
-                    //chosen.GetComponent<Image>().transform.GetChild(0).GetComponent<TMP_Text>().text = "?";
                 }
                 else if (bomb.bombPattern[i, j] > 0)
                 {
@@ -185,7 +169,6 @@ public class BombManager : MonoBehaviour
                             break;
                     }
                     image.color = damageColor;
-                    //chosen.GetComponent<Image>().transform.GetChild(0).GetComponent<TMP_Text>().text = ((cellDamage / 10)).ToString();
 
                 }
                 else if (bomb.bombPattern[i, j] < 0)
@@ -209,7 +192,6 @@ public class BombManager : MonoBehaviour
                             break;
                     }
                     image.color = healColor;
-                    //chosen.GetComponent<Image>().transform.GetChild(0).GetComponent<TMP_Text>().text = Mathf.Abs(cellDamage / 10).ToString();
 
                 }
                 else if (bomb.bombPattern[i, j] == 0)
@@ -222,19 +204,6 @@ public class BombManager : MonoBehaviour
 
             }
         }
-        /*
-        for (int x = 0; x < bomb.size; x++)
-        {
-            for (int y = 0; y < bomb.size; y++)
-            {
-                if (bomb.bombPattern[x, y] == 1)
-                {
-                    var spawnedTile = Instantiate(cellPrefab, new Vector3(x/2 -1 - 3.5f, y/2 - 1 + 2.5f), Quaternion.identity);
-                    spawnedTile.name = $"BombCell {x-1} {y-1}";
-                }
-
-            }
-        }*/
 
     }
 
@@ -271,7 +240,6 @@ public class BombManager : MonoBehaviour
                 default:
                     return;
             }
-            //GameManager.Instance.UpdateGameState(GameManager.GameState.ShootBomb);
         }
     }
 
@@ -287,7 +255,6 @@ public class BombManager : MonoBehaviour
                 if ((bomb.bombPattern[i, j] != 0)) 
                 {
                     var chosen = GameObject.Find($"Soldier {target.transform.position.x + i - 1} {target.transform.position.y + j - 1}");
-                    //var chosen = GridManager.Instance.soldiers;
                     if (chosen != null)
                     {
                         Soldier chosenSoldier = chosen.GetComponent<Soldier>();
@@ -297,22 +264,14 @@ public class BombManager : MonoBehaviour
                             AnimationManager.Instance.ExplosionPlay(chosenSoldier);
                             var hlObject = GameObject.Find($"Highlight {chosenSoldier.position.x} {chosenSoldier.position.y}");
                             Highlight hl = hlObject.GetComponent<Highlight>();
-                            //hl.GetComponent<Animator>().enabled = false;
                             chosenSoldier.isDead();
                             chosenSoldier.UpdateHealthbar();
-                            //if (chosenSoldier.playerSide == Soldier.Side.Allies) { Soldier.diedAllieThisTurns++; } else { Soldier.diedAxisThisTurn++; }
 
                         }
                         else if (chosenSoldier.playerSide == Soldier.Side.None)
                         {
                             chosenSoldier.ChangeSide(bomb.bombPattern[i, j] > 0 ? Soldier.Side.BombedZone : Soldier.Side.BombedZone);
                         }
-                        /* RED HIGHLIGHT THE DAMAGED ZONES
-                        var damageHighlight = GameObject.Find($"Highlight {target.transform.position.x + i - 1} {target.transform.position.y + j - 1}");
-                        var highlightColor = Color.red;
-                        highlightColor.a = 0.5f;
-                        damageHighlight.GetComponent<SpriteRenderer>().color = highlightColor;
-                         */
                         //ANIMATION
                         var explosionObject = Instantiate(explosionPrefab, chosenSoldier.transform.position + new Vector3(0, 0, 0), chosenSoldier.transform.rotation);
                         Destroy(explosionObject, 5f);
@@ -326,8 +285,6 @@ public class BombManager : MonoBehaviour
         chosenOption = null;
 
         GameManager.Instance.nextTurn();
-
-        //GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
 
     }
 

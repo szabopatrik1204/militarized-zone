@@ -28,15 +28,11 @@ public class AnimationManager : MonoBehaviour
         var explosionObject = GameObject.Find($"Highlight {soldier.position.x} {soldier.position.y}");
         Highlight explosion = explosionObject.GetComponent<Highlight>();
         var highlightColor = Color.white;
-        //highlightColor.a = 1;
         explosion.GetComponent<SpriteRenderer>().color = highlightColor;
         Animator animator = explosion.GetComponent<Animator>();
         Debug.Log(animator);
         animator.enabled = true;
         yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length + animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
-        //animator.Play(EXPLOSION);
-        //float animationLength = animator.GetCurrentAnimatorStateInfo(0).length;
-        //WaitForAnimation(explosionAnim);
 
     }
 

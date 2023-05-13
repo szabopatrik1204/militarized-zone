@@ -61,7 +61,7 @@ public class FlagManager : MonoBehaviour
             if(newFlag.position.y == 0)
             {
                 GameManager.Instance.UpdateGameState(GameManager.GameState.EndGame);
-                GameManager.Instance.WinnerText.text = "Allies won";
+                GameManager.Instance.WinnerText.text = "Kék nyert";
                 break;
             }
             Tile.ColorTile(newFlag);
@@ -112,7 +112,7 @@ public class FlagManager : MonoBehaviour
             if (newFlag.position.y == GridManager.Instance.height - 1)
             {
                 GameManager.Instance.UpdateGameState(GameManager.GameState.EndGame);
-                GameManager.Instance.WinnerText.text = "Axis won";
+                GameManager.Instance.WinnerText.text = "Sárga nyert";
                 break;
             }
             Tile.ColorTile(newFlag);

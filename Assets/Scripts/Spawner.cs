@@ -38,21 +38,14 @@ public class Spawner : MonoBehaviour
 
     public void SpawnSoldier(Soldier.Side side)
     {
-        //var t = GridManager.Instance.tiles;
+
         var emptyTiles = GridManager.Instance.soldiers.Where(t => t.Value.playerSide == Soldier.Side.None).Select(t => t.Key);
-        /*Dictionary<Vector2, Tile> dict = new Dictionary<Vector2, Tile>();
-        foreach (var tile in emptyTiles)
-        {
-            dict.Add(tile.Key, tile.Value);
-        }
-        int index = Random.Range(0, dict.Count);
-        Vector2 position = RandomTile(dict);
-        */
+
         List<Vector2> pos = new List<Vector2>();
         foreach (var tile in emptyTiles)
         {
             pos.Add(tile);
-            //Debug.Log($"{tile}");
+
         }
         if (pos.Count() > 0)
         {
@@ -66,13 +59,7 @@ public class Spawner : MonoBehaviour
         {
             Debug.Log("pos.Count = 0");
         }
-        //soldier.Init(200, position, side);
-        //Soldier spawnedSoldier = new Soldier(200, position, side);
-        //spawnedSoldier.Init(200, position, side);
-        //GridManager.Instance.tiles[position].soldier.Init(200, position, side);
-        //Debug.Log(position);
-        //Soldier spawnedSoldier = Instantiate(GridManager.Instance.tiles[position].soldier, new Vector3(position.x, position.y, 1), Quaternion.identity);
-        //spawnedSoldier.Init(200, position, side);
+
     }
 
     public void SoldierSpawner()
@@ -136,27 +123,5 @@ public class Spawner : MonoBehaviour
 
     }
 
-    /*
-    public void SpawnSoldier()
-    {
-
-        for (int i = 0; i < GameManager.spawnedSoldiers; i++)
-        {
-            Vector2 position = GridManager.Instance.SpawnPosition();
-            soldier.Init(200, position, Soldier.Side.Allies);
-            Instantiate(soldier, new Vector3(position.x, position.y, 1), Quaternion.identity);
-
-
-        }
-        for (int i = 0; i < GameManager.spawnedSoldiers; i++)
-        {
-            Vector2 position = GridManager.Instance.SpawnPosition();
-            soldier.Init(200, position, Soldier.Side.Axis);
-            Instantiate(soldier, new Vector3(position.x, position.y, 1), Quaternion.identity);
-
-        }
-
-        GameManager.Instance.UpdateGameState(GameManager.GameState.FlagCarrierSpawning);
-    */
 
 }

@@ -42,10 +42,6 @@ public class GameManager : MonoBehaviour
     public Image Option2Image;
     public Image Option3Image;
 
-    //public GameObject Cannon;
-    //Vector3 mousePos;
-    //Rigidbody2D rb;
-
     private void Awake()
     {
         Instance = this;
@@ -58,7 +54,6 @@ public class GameManager : MonoBehaviour
 
         RestartButton.GetComponent<Button>().onClick.AddListener(restartOnClick);
         clickToContinue.SetActive(true);
-        //rb = Cannon.GetComponent<Rigidbody2D>();
 
     }
 
@@ -76,17 +71,10 @@ public class GameManager : MonoBehaviour
             clickToContinue.gameObject.SetActive(false);
             UpdateGameState(GameState.MapGenerate);
         }
-        //mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
     private void FixedUpdate()
     {
-        //Vector3 lookDir = mousePos - Cannon.transform.position;
-        //Cannon.transform.Rotate(lookDir);
-
-        /*Vector2 lookDir = mousePos - rb.position;
-        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
-        rb.rotation = angle;*/
     }
 
     public void UpdateGameState(GameState newState)
@@ -169,8 +157,6 @@ public class GameManager : MonoBehaviour
             Option3Image.color = Soldier.AlliesColor;
             AnimationManager.Instance.IdleSide(Soldier.Side.Allies);
             GameObject.Find("Map Background").GetComponent<SpriteRenderer>().color = Soldier.AlliesColor;
-            //AlliesTurnIndicator.SetActive(true);
-            //AxisTurnIndicator.SetActive(false);
 
         }
         else
@@ -180,9 +166,7 @@ public class GameManager : MonoBehaviour
             Option2Image.color = Soldier.AxisColor;
             Option3Image.color = Soldier.AxisColor;
             AnimationManager.Instance.IdleSide(Soldier.Side.Axis);
-            GameObject.Find("Map Background").GetComponent<SpriteRenderer>().color = Soldier.AxisColor;
-            //AxisTurnIndicator.SetActive(true);
-            //AlliesTurnIndicator.SetActive(false);           
+            GameObject.Find("Map Background").GetComponent<SpriteRenderer>().color = Soldier.AxisColor;       
 
         }
     }
